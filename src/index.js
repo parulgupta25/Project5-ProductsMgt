@@ -1,23 +1,22 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express')
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const multer = require('multer')
-const route = require('./routes/route.js');
+const route = require('./routes/route')
+const app = express()
 
-const app = express();
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(multer().any())
 
-const mongoose = require('mongoose');
+app.use('/', route)
 
 mongoose.connect("mongodb+srv://parul_gupta05:8tIPaevO6ZCErmDA@cluster0.jlp5k.mongodb.net/Parul-db?retryWrites=true&w=majority", {
     useNewUrlParser: true
 })
 .then( () => console.log("MongoDb is connected"))
 .catch ( err => console.log(err) )
-
-app.use('/', route);
 
 app.listen(process.env.PORT || 3000,
 function(){
